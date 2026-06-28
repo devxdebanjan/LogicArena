@@ -1,11 +1,4 @@
-"""Development entry point — run the server with hot reload.
-
-Usage:
-    uv run python main.py
-
-For production, use:
-    uvicorn app.main:app --host 0.0.0.0 --port 8000
-"""
+# Entry Point for Development Server
 
 import uvicorn
 
