@@ -341,6 +341,21 @@ export default function App() {
         </div>
       )}
 
+      {/* Mobile Orientation Advisor Overlay */}
+      <div className="orientation-advisor">
+        <div className="glass-panel neo-border neo-shadow-magenta text-center" style={{ padding: '36px', maxWidth: '320px', margin: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <span className="material-symbols-outlined rotate-icon" style={{ fontSize: '64px', color: 'var(--secondary-magenta)' }}>
+            screen_rotation
+          </span>
+          <h3 style={{ fontSize: '20px', color: '#ffffff', margin: '20px 0 10px 0', letterSpacing: '0.05em', fontWeight: '900' }}>
+            ROTATE YOUR DEVICE
+          </h3>
+          <p style={{ color: 'var(--text-primary)', fontSize: '13px', lineHeight: '1.6', margin: 0 }}>
+            Logic Arena is optimized for widescreen play. Please rotate your phone to landscape mode to enter the arena.
+          </p>
+        </div>
+      </div>
+
     </div>
   );
 }
