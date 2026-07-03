@@ -348,7 +348,7 @@ export default function App() {
             computer
           </span>
           <h3 style={{ fontSize: '20px', color: '#ffffff', margin: '20px 0 10px 0', letterSpacing: '0.05em', fontWeight: '900' }}>
-            DESKTOP ONLY
+            TRY DESKTOP MODE
           </h3>
           <p style={{ color: 'var(--text-primary)', fontSize: '13px', lineHeight: '1.6', margin: 0 }}>
             Currently the game supports only a desktop mode experience. We are working on the mobile version, it will be available soon.
