@@ -158,7 +158,10 @@ export default function InteractiveTutorial({ activeMode, onClose, onCompleteMod
   useEffect(() => {
     updatePointer();
     window.addEventListener('resize', updatePointer);
-    return () => window.removeEventListener('resize', updatePointer);
+
+    return () => {
+      window.removeEventListener('resize', updatePointer);
+    };
   }, [mode, step, isSuccess, gridAnswers, draggingItem, ANDQty, oneQty, zeroQty]);
 
   // Handle Mode 1 interactions
@@ -249,48 +252,48 @@ export default function InteractiveTutorial({ activeMode, onClose, onCompleteMod
   };
 
   return (
-    <div className="tutorial-overlay" ref={containerRef}>
+    <div className="tutorial-overlay">
 
-      {/* Floating animated guidance pointer */}
-      {pointerCoords && (
-        <div
-          className={`tutorial-pointer ${(pointerDirection === 'down' || pointerDirection === 'down2') ? 'bounce-down' : pointerDirection === 'up' ? 'bounce-up' : 'bounce-left'} ${mode === 2 ? 'secondary' : ''}`}
-          style={{
-            top: `${pointerCoords.top}px`,
-            left: `${pointerCoords.left}px`,
-            transform: pointerDirection === 'down' || pointerDirection === 'down2' || pointerDirection === 'up' ? 'translateX(-50%)' : 'none'
-          }}
-        >
-          {pointerDirection === 'up' ? (
-            <>
-              <div className="tutorial-pointer-arrow" style={{ borderBottom: '12px solid var(--primary-lime)' }} />
-              <div className="tutorial-pointer-label">
-                CLICK THE AND GATE
-              </div>
-            </>
-          ) : pointerDirection === 'left' ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <div className="tutorial-pointer-label">
-                Select "0"
-              </div>
-              <div className="tutorial-pointer-arrow" />
-            </div>
-          ) : (
-            <>
-              <div className="tutorial-pointer-label">
-                {mode === 3 && step === 1
-                  ? (draggingItem === 'AND' ? 'DROP HERE' : 'DRAG AND GATE')
-                  : mode === 3 && step === 2
-                    ? 'DOUBLE CLICK TO REMOVE'
-                    : (draggingItem === '1' ? 'DROP HERE' : 'DRAG VALUE 1')}
-              </div>
-              <div className="tutorial-pointer-arrow" />
-            </>
-          )}
-        </div>
-      )}
+      <div className="glass-panel neo-border tutorial-card neo-shadow-lime" ref={containerRef} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
 
-      <div className="glass-panel neo-border tutorial-card neo-shadow-lime" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        {/* Floating animated guidance pointer */}
+        {pointerCoords && (
+          <div
+            className={`tutorial-pointer ${(pointerDirection === 'down' || pointerDirection === 'down2') ? 'bounce-down' : pointerDirection === 'up' ? 'bounce-up' : 'bounce-left'} ${mode === 2 ? 'secondary' : ''}`}
+            style={{
+              top: `${pointerCoords.top}px`,
+              left: `${pointerCoords.left}px`,
+              transform: pointerDirection === 'down' || pointerDirection === 'down2' || pointerDirection === 'up' ? 'translateX(-50%)' : 'none'
+            }}
+          >
+            {pointerDirection === 'up' ? (
+              <>
+                <div className="tutorial-pointer-arrow" style={{ borderBottom: '12px solid var(--primary-lime)' }} />
+                <div className="tutorial-pointer-label">
+                  CLICK THE AND GATE
+                </div>
+              </>
+            ) : pointerDirection === 'left' ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <div className="tutorial-pointer-label">
+                  Select "0"
+                </div>
+                <div className="tutorial-pointer-arrow" />
+              </div>
+            ) : (
+              <>
+                <div className="tutorial-pointer-label">
+                  {mode === 3 && step === 1
+                    ? (draggingItem === 'AND' ? 'DROP HERE' : 'DRAG AND GATE')
+                    : mode === 3 && step === 2
+                      ? 'DOUBLE CLICK TO REMOVE'
+                      : (draggingItem === '1' ? 'DROP HERE' : 'DRAG VALUE 1')}
+                </div>
+                <div className="tutorial-pointer-arrow" />
+              </>
+            )}
+          </div>
+        )}
 
         {/* Tutorial Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid var(--surface-high)', paddingBottom: '16px' }}>
