@@ -9,8 +9,8 @@ export default function DailyTab({
     <div style={{ maxWidth: '1000px', width: '100%', margin: '0 auto' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '32px' }}>
         <div>
-          <h2 style={{ fontSize: '32px', color: 'var(--secondary-magenta)' }}>DAILY MATRIX MISSION</h2>
-          <p style={{ color: 'var(--text-muted)' }}>Extend streak ratings by completing daily puzzles.</p>
+          <h2 style={{ fontSize: '32px', color: 'var(--secondary-magenta)' }}>DAILY MISSION</h2>
+          <p style={{ color: 'var(--text-muted)' }}>Extend streak ratings by completing daily challenge</p>
         </div>
       </div>
 
@@ -19,12 +19,12 @@ export default function DailyTab({
         {/* Daily Quest card */}
         <div className="glass-panel neo-border tab-col-12" style={{ padding: '30px', borderLeft: '4px solid var(--primary-lime)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '24px' }}>
-            <h3 style={{ fontSize: '22px' }}>DAILY LOGIC MATRIX</h3>
+            <h3 style={{ fontSize: '22px' }}>TODAY'S CIRCUIT GRID</h3>
             <div className="badge badge-lime hidden-mobile">STREAK: {user?.current_streak || 0}</div>
           </div>
-          <p style={{ color: 'var(--text-muted)', marginBottom: '24px', fontSize: '14px', lineHeight: '1.6' }}>
+          {/* <p style={{ color: 'var(--text-muted)', marginBottom: '24px', fontSize: '14px', lineHeight: '1.6' }}>
             Today's challenge is a Circuit Grid crossword logic puzzle. Solve coordinates to extend daily records. Perfect efficiency awards ELO score multipliers.
-          </p>
+          </p> */}
 
           <button className="btn btn-primary w-full" onClick={handleStartDailyChallenge}>
             Attempt Daily Challenge

@@ -23,6 +23,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('arena');
   const [leaderboard, setLeaderboard] = useState([]);
   const [dailyLeaderboard, setDailyLeaderboard] = useState([]);
+  const [autoStartOnboarding, setAutoStartOnboarding] = useState(false);
 
   const [modalConfig, setModalConfig] = useState({
     isOpen: false,
@@ -97,6 +98,20 @@ export default function App() {
       loadDailyLeaderboard();
     }
   }, [auth.isAuthenticated, activeTab]);
+
+  // Detect first guest login and trigger onboarding
+  useEffect(() => {
+    if (auth.isAuthenticated && auth.user && auth.user.is_guest) {
+      const tutorialSeen = localStorage.getItem('logic_arena_tutorial_seen');
+      if (!tutorialSeen) {
+        localStorage.setItem('logic_arena_tutorial_seen', 'true');
+        setTimeout(() => {
+          setActiveTab('guide');
+          setAutoStartOnboarding(true);
+        }, 0);
+      }
+    }
+  }, [auth.isAuthenticated, auth.user]);
 
   if (auth.isLoading) {
     return <LoadingScreen message={auth.loadingMsg} />;
@@ -227,7 +242,10 @@ export default function App() {
             )}
 
             {activeTab === 'guide' && (
-              <GuideTab />
+              <GuideTab
+                autoStartOnboarding={autoStartOnboarding}
+                onOnboardingComplete={() => setAutoStartOnboarding(false)}
+              />
             )}
 
             {activeTab === 'profile' && (

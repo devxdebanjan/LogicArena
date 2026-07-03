@@ -837,3 +837,135 @@ button, input, select, textarea {
     height: 20px;
   }
 }
+
+/* =============================================================================
+   Interactive Onboarding Tutorial Styles
+   ============================================================================= */
+.tutorial-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(9, 6, 13, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 11000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.tutorial-card {
+  width: 100%;
+  max-width: 800px;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.tutorial-pointer {
+  position: absolute;
+  pointer-events: none;
+  z-index: 12000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes pointer-bounce-down {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes pointer-bounce-up {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(10px); }
+}
+@keyframes pointer-bounce-left {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(10px); }
+}
+@keyframes pointer-bounce-right {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-10px); }
+}
+
+.tutorial-pointer.bounce-down {
+  animation: pointer-bounce-down 1.2s infinite ease-in-out;
+}
+.tutorial-pointer.bounce-up {
+  animation: pointer-bounce-up 1.2s infinite ease-in-out;
+}
+.tutorial-pointer.bounce-left {
+  animation: pointer-bounce-left 1.2s infinite ease-in-out;
+}
+.tutorial-pointer.bounce-right {
+  animation: pointer-bounce-right 1.2s infinite ease-in-out;
+}
+
+.tutorial-pointer-arrow {
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  filter: drop-shadow(0 0 6px var(--primary-lime));
+}
+
+.tutorial-pointer.bounce-down .tutorial-pointer-arrow {
+  border-top: 12px solid var(--primary-lime);
+}
+.tutorial-pointer.bounce-up .tutorial-pointer-arrow {
+  border-bottom: 12px solid var(--primary-lime);
+}
+.tutorial-pointer.bounce-left .tutorial-pointer-arrow {
+  border-left: 12px solid var(--primary-lime);
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+}
+.tutorial-pointer.bounce-right .tutorial-pointer-arrow {
+  border-right: 12px solid var(--primary-lime);
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+}
+
+.tutorial-pointer-label {
+  background-color: #05020a;
+  color: var(--primary-lime);
+  border: 2px solid var(--primary-lime);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+  box-shadow: 0 0 15px rgba(195, 244, 0, 0.25);
+  box-sizing: border-box;
+}
+
+.tutorial-pointer.secondary .tutorial-pointer-label {
+  color: var(--secondary-magenta);
+  border-color: var(--secondary-magenta);
+  box-shadow: 0 0 15px rgba(254, 0, 254, 0.25);
+}
+
+.tutorial-pointer.secondary.bounce-down .tutorial-pointer-arrow {
+  border-top-color: var(--secondary-magenta);
+}
+.tutorial-pointer.secondary.bounce-left .tutorial-pointer-arrow {
+  border-left-color: var(--secondary-magenta);
+}
+.tutorial-pointer.secondary.bounce-right .tutorial-pointer-arrow {
+  border-right-color: var(--secondary-magenta);
+}
+
+.tutorial-target-highlight {
+  outline: 3px solid var(--primary-lime) !important;
+  outline-offset: 4px;
+  box-shadow: 0 0 25px rgba(195, 244, 0, 0.6) !important;
+  z-index: 11500 !important;
+  animation: pulse-neon-lime 1.5s infinite ease-in-out;
+}

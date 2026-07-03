@@ -6,7 +6,7 @@ export default function Sidebar({ activeTab, setActiveTab, user, onLogout, showA
   const tabs = [
     { id: 'arena', label: 'Arena', icon: 'sports_esports' },
     { id: 'daily', label: 'Daily', icon: 'event_note' },
-    { id: 'guide', label: 'How to Play', icon: 'help_outline' },
+    { id: 'guide', label: 'Guide', icon: 'help_outline' },
     { id: 'profile', label: 'Profile', icon: 'account_circle' }
   ];
 

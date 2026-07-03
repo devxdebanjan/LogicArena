@@ -201,7 +201,7 @@ export default function CircuitRenderer({ circuit, mode, onGateClick }) {
         {nodes.map(node => {
           if (node.type === 'input') {
             return (
-              <g key={node.id}>
+              <g key={node.id} id={`input-node-${node.id}`}>
                 <rect
                   x={node.x}
                   y={node.y}
@@ -234,6 +234,7 @@ export default function CircuitRenderer({ circuit, mode, onGateClick }) {
             return (
               <g
                 key={node.id}
+                id={`gate-node-${node.gateId}`}
                 onClick={() => isClickable && onGateClick?.(node.gateId)}
                 style={{ cursor: isClickable ? 'pointer' : 'default' }}
               >
@@ -296,7 +297,7 @@ export default function CircuitRenderer({ circuit, mode, onGateClick }) {
                   </text>
 
                   {/* Vertically aligned 0 and 1 circles (0 up, 1 down) shifted horizontally */}
-                  <g onClick={() => onGateClick?.('0')} className="svg-btn">
+                  <g onClick={() => onGateClick?.('0')} className="svg-btn" id="output-choice-0">
                     <circle cx={cx + 38} cy={cy - 38} r="18" fill="#000000" />
                     <g className="btn-face">
                       <circle
@@ -320,7 +321,7 @@ export default function CircuitRenderer({ circuit, mode, onGateClick }) {
                       </text>
                     </g>
                   </g>
-                  <g onClick={() => onGateClick?.('1')} className="svg-btn">
+                  <g onClick={() => onGateClick?.('1')} className="svg-btn" id="output-choice-1">
                     <circle cx={cx + 38} cy={cy + 38} r="18" fill="#000000" />
                     <g className="btn-face">
                       <circle

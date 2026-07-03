@@ -117,9 +117,9 @@ export function useAuth(loadGlobalLeaderboard, showAlert) {
       const updated = await userService.updateDisplayName(displayNameInput);
       setUser(updated);
       if (showAlert) {
-        showAlert('Neural display label saved successfully.', 'SUCCESS');
+        showAlert('Player display name saved successfully.', 'SUCCESS');
       } else {
-        alert('Neural display label saved successfully.');
+        alert('Player display name saved successfully.');
       }
     } catch (e) {
       if (showAlert) {
@@ -144,7 +144,7 @@ export function useAuth(loadGlobalLeaderboard, showAlert) {
         loadGlobalLeaderboard();
       }
       if (showAlert) {
-        showAlert('Authentication complete. Neural records linked successfully.', 'SUCCESS');
+        showAlert('Authentication complete. Player records linked successfully.', 'SUCCESS');
       }
     } catch (e) {
       if (showAlert) {

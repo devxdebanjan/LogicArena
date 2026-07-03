@@ -62,13 +62,13 @@ export default function ProfileTab({
             <input
               type="text"
               className="input-field"
-              placeholder="ENTER NEURAL DISPLAY LABEL..."
+              placeholder="SET A CUSTOM DISPLAY NAME..."
               value={displayNameInput}
               onChange={(e) => setDisplayNameInput(e.target.value)}
             />
           </div>
           <button type="submit" className="btn btn-primary" style={{ height: '52px' }}>
-            Save Label
+            Save
           </button>
         </form>
       </div>
@@ -99,7 +99,7 @@ export default function ProfileTab({
         </div>
 
         <div className="glass-panel neo-border tab-col-6" style={{ padding: '24px', borderLeft: '4px solid var(--secondary-magenta)' }}>
-          <h3 style={{ fontSize: '16px', color: 'var(--secondary-magenta)', marginBottom: '20px' }}>Neural Ratings</h3>
+          <h3 style={{ fontSize: '16px', color: 'var(--secondary-magenta)', marginBottom: '20px' }}>Player Ratings</h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <span style={{ color: 'var(--text-muted)' }}>CURRENT RATING</span>
