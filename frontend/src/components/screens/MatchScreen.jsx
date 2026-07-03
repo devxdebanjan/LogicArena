@@ -40,20 +40,33 @@ export default function MatchScreen({
           flexDirection: 'column',
           justifyContent: 'center'
         }}>
-          <div className="badge badge-lime" style={{ fontSize: '9px', marginBottom: '8px', alignSelf: 'flex-start' }}>You</div>
-          <div style={{ fontWeight: '900', fontSize: '18px', color: '#ffffff', marginTop: '6px' }}>
-            {user?.display_name || user?.username}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+            <div>
+              <div className="badge badge-lime" style={{ fontSize: '9px', marginBottom: '8px', alignSelf: 'flex-start' }}>You</div>
+              <div style={{ fontWeight: '900', fontSize: '18px', color: '#ffffff', marginTop: '6px' }}>
+                {user?.display_name || user?.username}
+              </div>
+            </div>
+            {(currentMode === 1 || currentMode === 2) && (
+              <div style={{ textAlign: 'right' }}>
+                <div style={{ fontSize: '9px', fontWeight: '800', color: 'var(--text-muted)', letterSpacing: '0.1em' }}>SCORE</div>
+                <div style={{ fontSize: '24px', fontWeight: '900', color: 'var(--primary-lime)', fontFamily: 'var(--font-mono)', marginTop: '2px' }}>
+                  {myScore}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
         {!(isPracticeMode || isDailyChallengeMode) && (
           <>
-            <div className="flex-center" style={{ flex: '1' }}>
+            <div style={{ flex: '1', display: 'flex' }}>
               <div
                 className={`neo-border text-center ${isTimerUrgent ? 'pulse-neon-lime' : ''}`}
                 style={{
                   backgroundColor: 'var(--surface-lowest)',
                   border: '2px solid var(--primary-lime)',
+                  borderRadius: '2rem',
                   padding: '16px',
                   width: '100%',
                   height: '100%',
@@ -77,25 +90,36 @@ export default function MatchScreen({
               borderRight: '4px solid var(--secondary-magenta)',
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'flex-end',
-              textAlign: 'right',
               justifyContent: 'center'
             }}>
-              <div className="badge badge-magenta" style={{ fontSize: '9px', marginBottom: '8px', alignSelf: 'flex-end' }}>Opponent</div>
-              <div style={{ fontWeight: '900', fontSize: '18px', color: '#ffffff', marginTop: '6px' }}>
-                {opponentName}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                {!(isPracticeMode || isDailyChallengeMode) && (currentMode === 1 || currentMode === 2) && (
+                  <div style={{ textAlign: 'left' }}>
+                    <div style={{ fontSize: '9px', fontWeight: '800', color: 'var(--text-muted)', letterSpacing: '0.1em' }}>SCORE</div>
+                    <div style={{ fontSize: '24px', fontWeight: '900', color: 'var(--secondary-magenta)', fontFamily: 'var(--font-mono)', marginTop: '2px' }}>
+                      {opponentScore}
+                    </div>
+                  </div>
+                )}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', textAlign: 'right' }}>
+                  <div className="badge badge-magenta" style={{ fontSize: '9px', marginBottom: '8px', alignSelf: 'flex-end' }}>Opponent</div>
+                  <div style={{ fontWeight: '900', fontSize: '18px', color: '#ffffff', marginTop: '6px' }}>
+                    {opponentName}
+                  </div>
+                </div>
               </div>
             </div>
           </>
         )}
 
         {(isPracticeMode || isDailyChallengeMode) && (
-          <div className="flex-center" style={{ flex: '0 1 240px' }}>
+          <div style={{ flex: '0 1 240px', display: 'flex' }}>
             <div
               className={`neo-border text-center ${isTimerUrgent ? 'pulse-neon-lime' : ''}`}
               style={{
                 backgroundColor: 'var(--surface-lowest)',
                 border: '2px solid var(--primary-lime)',
+                borderRadius: '2rem',
                 padding: '16px',
                 width: '100%',
                 height: '100%',
