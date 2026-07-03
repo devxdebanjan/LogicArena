@@ -143,11 +143,53 @@ export default function App() {
       <Sidebar
         activeTab={activeTab}
         setActiveTab={(tab) => {
-          setActiveTab(tab);
-          game.resetToLobby();
+          if (game.gameScreen === 'match') {
+            const msg = game.isPracticeMode
+              ? 'Abort this practice session?'
+              : game.isDailyChallengeMode
+              ? 'Abort this daily challenge session?'
+              : game.isFriendMatch
+              ? 'Forfeit this match? This records a loss'
+              : 'Forfeit this match? This records a loss and deducts ELO';
+
+            showConfirm(
+              msg,
+              () => {
+                game.handleResign(false);
+                setActiveTab(tab);
+              },
+              null,
+              'FORFEIT CONFIRMATION'
+            );
+          } else {
+            setActiveTab(tab);
+            game.resetToLobby();
+          }
         }}
         user={auth.user}
-        onLogout={() => auth.handleLogout(game.resetToLobby)}
+        onLogout={() => {
+          if (game.gameScreen === 'match') {
+            const msg = game.isPracticeMode
+              ? 'Abort this practice session?'
+              : game.isDailyChallengeMode
+              ? 'Abort this daily challenge session?'
+              : game.isFriendMatch
+              ? 'Forfeit this match? This records a loss'
+              : 'Forfeit this match? This records a loss and deducts ELO';
+
+            showConfirm(
+              msg,
+              () => {
+                game.handleResign(false);
+                auth.handleLogout(game.resetToLobby);
+              },
+              null,
+              'FORFEIT CONFIRMATION'
+            );
+          } else {
+            auth.handleLogout(game.resetToLobby);
+          }
+        }}
         showAlert={showAlert}
       />
 

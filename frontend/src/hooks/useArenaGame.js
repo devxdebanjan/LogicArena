@@ -395,39 +395,41 @@ export function useArenaGame({
     });
   };
 
-  const handleResign = () => {
+  const handleResign = (confirmFirst = true) => {
     const msg = isPracticeMode
       ? 'Abort this practice session?'
+      : isDailyChallengeMode
+      ? 'Abort this daily challenge session?'
       : isFriendMatch
       ? 'Forfeit this match? This records a loss'
       : 'Forfeit this match? This records a loss and deducts ELO';
 
+    const executeResign = () => {
+      if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+        wsRef.current.send(JSON.stringify({ type: 'resign' }));
+        setIsLoading(true);
+        setLoadingMsg('WAITING FOR FINAL ARENA SCORECARD...');
+      } else {
+        stopGameTimer();
+        resetToLobby();
+      }
+    };
+
+    if (!confirmFirst) {
+      executeResign();
+      return;
+    }
+
     if (showConfirm) {
       showConfirm(
         msg,
-        () => {
-          if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
-            wsRef.current.send(JSON.stringify({ type: 'resign' }));
-            setIsLoading(true);
-            setLoadingMsg('WAITING FOR FINAL ARENA SCORECARD...');
-          } else {
-            stopGameTimer();
-            resetToLobby();
-          }
-        },
+        executeResign,
         null,
         'FORFEIT CONFIRMATION'
       );
     } else {
       if (window.confirm(msg)) {
-        if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
-          wsRef.current.send(JSON.stringify({ type: 'resign' }));
-          setIsLoading(true);
-          setLoadingMsg('WAITING FOR FINAL ARENA SCORECARD...');
-        } else {
-          stopGameTimer();
-          resetToLobby();
-        }
+        executeResign();
       }
     }
   };
