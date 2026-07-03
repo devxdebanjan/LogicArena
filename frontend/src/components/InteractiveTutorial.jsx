@@ -142,7 +142,7 @@ export default function InteractiveTutorial({ activeMode, onClose, onCompleteMod
       left = targetRect.left - parentRect.left;
     } else if (direction === 'down2') {
       top = targetRect.top - parentRect.top - 62;
-      left = targetRect.left - parentRect.left - 40;
+      left = targetRect.left - parentRect.left - 80;
     } else if (direction === 'up') {
       top = targetRect.bottom - parentRect.top + 8;
       left = targetRect.left - parentRect.left - 40;
@@ -189,9 +189,12 @@ export default function InteractiveTutorial({ activeMode, onClose, onCompleteMod
   };
 
   // Drag-and-drop mechanics for Mode 3
-  const handleDragStart = (e, value, type) => {
+  const handleDragStart = (e, value, type, sourceCellId = null) => {
     e.dataTransfer.setData('text/plain', value);
     e.dataTransfer.setData('itemType', type);
+    if (sourceCellId) {
+      e.dataTransfer.setData('sourceCellId', sourceCellId);
+    }
   };
 
   const handleDragOver = (e) => {
@@ -286,7 +289,7 @@ export default function InteractiveTutorial({ activeMode, onClose, onCompleteMod
                   {mode === 3 && step === 1
                     ? (draggingItem === 'AND' ? 'DROP HERE' : 'DRAG AND GATE')
                     : mode === 3 && step === 2
-                      ? 'DOUBLE CLICK TO REMOVE'
+                      ? 'DOUBLE CLICK OR DRAG OUT TO REMOVE'
                       : (draggingItem === '1' ? 'DROP HERE' : 'DRAG VALUE 1')}
                 </div>
                 <div className="tutorial-pointer-arrow" />
@@ -375,6 +378,12 @@ export default function InteractiveTutorial({ activeMode, onClose, onCompleteMod
                 {/* Row 0 Col 2: Cell C2 (empty gate cell, drop target) */}
                 <div
                   id="tutorial-cell-C2"
+                  draggable={!!gridAnswers.C2}
+                  onDragStart={(e) => {
+                    if (gridAnswers.C2) {
+                      handleDragStart(e, gridAnswers.C2, 'gate', 'C2');
+                    }
+                  }}
                   onDragOver={handleDragOver}
                   onDrop={(e) => handleDrop(e, 'C2')}
                   onDoubleClick={() => handleDoubleClickCell('C2')}
@@ -388,7 +397,7 @@ export default function InteractiveTutorial({ activeMode, onClose, onCompleteMod
                     height: '80px',
                     cursor: gridAnswers.C2 ? 'pointer' : 'default'
                   }}
-                  title={gridAnswers.C2 ? "Double click to remove" : ""}
+                  title={gridAnswers.C2 ? "Double click or drag back to inventory to remove" : ""}
                 >
                   {gridAnswers.C2 || ''}
                 </div>
@@ -421,6 +430,12 @@ export default function InteractiveTutorial({ activeMode, onClose, onCompleteMod
                 {/* Row 2 Col 2: Cell C4 (value cell, drop target) */}
                 <div
                   id="tutorial-cell-C4"
+                  draggable={!!gridAnswers.C4}
+                  onDragStart={(e) => {
+                    if (gridAnswers.C4) {
+                      handleDragStart(e, gridAnswers.C4, 'value', 'C4');
+                    }
+                  }}
                   onDragOver={handleDragOver}
                   onDrop={(e) => handleDrop(e, 'C4')}
                   onDoubleClick={() => handleDoubleClickCell('C4')}
@@ -434,7 +449,7 @@ export default function InteractiveTutorial({ activeMode, onClose, onCompleteMod
                     height: '80px',
                     cursor: gridAnswers.C4 ? 'pointer' : 'default'
                   }}
-                  title={gridAnswers.C4 ? "Double click to remove" : ""}
+                  title={gridAnswers.C4 ? "Double click or drag back to inventory to remove" : ""}
                 >
                   {gridAnswers.C4 || ''}
                 </div>
@@ -444,6 +459,14 @@ export default function InteractiveTutorial({ activeMode, onClose, onCompleteMod
               {/* inventory */}
               <div
                 className="crossword-inventory neo-border w-full"
+                onDragOver={handleDragOver}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  const sourceCellId = e.dataTransfer.getData('sourceCellId');
+                  if (sourceCellId) {
+                    handleDoubleClickCell(sourceCellId);
+                  }
+                }}
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
@@ -568,7 +591,7 @@ export default function InteractiveTutorial({ activeMode, onClose, onCompleteMod
                   The top logical path flows from 1 to 1. This requires an AND gate in the empty slot at the top.
                   However, the second input is pre-filled with 0, which makes the output incorrect.
                   {step === 1 && <em> Drag and drop the AND gate from your inventory to slot directed.</em>}
-                  {step === 2 && <em> Double-click the cell containing 0 to clear it and return it to your inventory.</em>}
+                  {step === 2 && <em> Double-click or drag and drop the cell containing 0 back to the inventory to clear it.</em>}
                   {step === 3 && <em> Drag and drop the value 1 from your inventory into the cleared cell to complete the path.</em>}
                 </>
               )}

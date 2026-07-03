@@ -88,9 +88,12 @@ export default function CrosswordGrid({ puzzleData, userAnswers, setUserAnswers,
     };
   }, [puzzleData, userAnswers]);
 
-  const handleDragStart = (e, value, type) => {
+  const handleDragStart = (e, value, type, sourceCellId = null) => {
     e.dataTransfer.setData('text/plain', value);
     e.dataTransfer.setData('itemType', type);
+    if (sourceCellId) {
+      e.dataTransfer.setData('sourceCellId', sourceCellId);
+    }
   };
 
   const handleDragOver = (e) => {
@@ -192,17 +195,23 @@ export default function CrosswordGrid({ puzzleData, userAnswers, setUserAnswers,
               );
             }
 
-            return (
+             return (
               <div
                 key={cell.id}
                 id={`cell-${cell.id}`}
                 className={`crossword-cell drop-target drop-target-${cellType} ${
                   answerVal ? (cellType === 'gate' ? 'dropped-gate' : 'dropped-value') : ''
                 }`}
+                draggable={!!answerVal}
+                onDragStart={(e) => {
+                  if (answerVal) {
+                    handleDragStart(e, answerVal, cellType, cell.id);
+                  }
+                }}
                 onDragOver={handleDragOver}
                 onDrop={(e) => handleDrop(e, cell.id, cellType)}
                 onDoubleClick={() => handleDoubleClick(cell.id)}
-                title="Double click to remove placed piece"
+                title="Double click or drag back to inventory to remove placed piece"
               >
                 {answerVal || ''}
               </div>
@@ -245,7 +254,17 @@ export default function CrosswordGrid({ puzzleData, userAnswers, setUserAnswers,
         </svg>
       </div>
 
-      <div className="crossword-inventory neo-border">
+      <div 
+        className="crossword-inventory neo-border"
+        onDragOver={handleDragOver}
+        onDrop={(e) => {
+          e.preventDefault();
+          const sourceCellId = e.dataTransfer.getData('sourceCellId');
+          if (sourceCellId) {
+            handleDoubleClick(sourceCellId);
+          }
+        }}
+      >
         <div className="inventory-title">[ AVAILABLE SYSTEM PIECES ]</div>
         <div className="inventory-list">
           {remainingInventory.map((item, idx) => {
@@ -266,7 +285,7 @@ export default function CrosswordGrid({ puzzleData, userAnswers, setUserAnswers,
           })}
           {remainingInventory.every(i => i.remaining <= 0) && (
             <div style={{ fontStyle: 'italic', color: 'var(--text-muted)' }}>
-              All pieces placed. Double click placed slots on the grid to recall them.
+              All pieces placed. Double click or drag and drop back to inventory to recall them.
             </div>
           )}
         </div>
