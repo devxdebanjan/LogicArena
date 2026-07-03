@@ -5,6 +5,7 @@ export default function ResultsScreen({
   user,
   opponentName,
   currentMode,
+  isFriendMatch,
   resetToLobby
 }) {
   return (
@@ -136,12 +137,14 @@ export default function ResultsScreen({
                   <div>
                     <span style={{ fontWeight: '800' }}>{user?.display_name || user?.username} (You)</span>
                     <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-                      Elo: {resultsData.player1?.user_id === user?.id
-                        ? `${resultsData.player1.elo_before} → ${resultsData.player1.elo_after} (${resultsData.player1.elo_change >= 0 ? `+${resultsData.player1.elo_change}` : resultsData.player1.elo_change})`
-                        : `${resultsData.player2?.user_id === user?.id
-                          ? `${resultsData.player2.elo_before} → ${resultsData.player2.elo_after} (${resultsData.player2.elo_change >= 0 ? `+${resultsData.player2.elo_change}` : resultsData.player2.elo_change})`
-                          : '—'
-                        }`
+                      Elo: {isFriendMatch
+                        ? 'Not Tracked'
+                        : resultsData.player1?.user_id === user?.id
+                          ? `${resultsData.player1.elo_before} → ${resultsData.player1.elo_after} (${resultsData.player1.elo_change >= 0 ? `+${resultsData.player1.elo_change}` : resultsData.player1.elo_change})`
+                          : `${resultsData.player2?.user_id === user?.id
+                            ? `${resultsData.player2.elo_before} → ${resultsData.player2.elo_after} (${resultsData.player2.elo_change >= 0 ? `+${resultsData.player2.elo_change}` : resultsData.player2.elo_change})`
+                            : '—'
+                          }`
                       }
                     </div>
                   </div>
@@ -158,12 +161,14 @@ export default function ResultsScreen({
                   <div>
                     <span style={{ fontWeight: '800' }}>{opponentName}</span>
                     <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-                      Elo: {resultsData.player1?.user_id !== user?.id
-                        ? `${resultsData.player1.elo_before} → ${resultsData.player1.elo_after} (${resultsData.player1.elo_change >= 0 ? `+${resultsData.player1.elo_change}` : resultsData.player1.elo_change})`
-                        : `${resultsData.player2?.user_id !== user?.id
-                          ? `${resultsData.player2.elo_before} → ${resultsData.player2.elo_after} (${resultsData.player2.elo_change >= 0 ? `+${resultsData.player2.elo_change}` : resultsData.player2.elo_change})`
-                          : '—'
-                        }`
+                      Elo: {isFriendMatch
+                        ? 'Not Tracked'
+                        : resultsData.player1?.user_id !== user?.id
+                          ? `${resultsData.player1.elo_before} → ${resultsData.player1.elo_after} (${resultsData.player1.elo_change >= 0 ? `+${resultsData.player1.elo_change}` : resultsData.player1.elo_change})`
+                          : `${resultsData.player2?.user_id !== user?.id
+                            ? `${resultsData.player2.elo_before} → ${resultsData.player2.elo_after} (${resultsData.player2.elo_change >= 0 ? `+${resultsData.player2.elo_change}` : resultsData.player2.elo_change})`
+                            : '—'
+                          }`
                       }
                     </div>
                   </div>
@@ -245,13 +250,13 @@ export default function ResultsScreen({
                         <div className="glass-panel neo-border" style={{ padding: '14px', borderLeft: '3px solid var(--primary-lime)' }}>
                           <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 'bold' }}>YOUR ELO UPDATE</span>
                           <div style={{ fontFamily: 'var(--font-mono)', fontWeight: '900', fontSize: '15px', marginTop: '4px' }}>
-                            {meData ? `${meData.elo_before} → ${meData.elo_after} (${meData.elo_change >= 0 ? `+${meData.elo_change}` : meData.elo_change})` : '—'}
+                            {isFriendMatch ? 'Not Tracked' : meData ? `${meData.elo_before} → ${meData.elo_after} (${meData.elo_change >= 0 ? `+${meData.elo_change}` : meData.elo_change})` : '—'}
                           </div>
                         </div>
                         <div className="glass-panel neo-border" style={{ padding: '14px', borderLeft: '3px solid var(--secondary-magenta)' }}>
                           <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 'bold' }}>OPPONENT ELO UPDATE</span>
                           <div style={{ fontFamily: 'var(--font-mono)', fontWeight: '900', fontSize: '15px', marginTop: '4px' }}>
-                            {oppData ? `${oppData.elo_before} → ${oppData.elo_after} (${oppData.elo_change >= 0 ? `+${oppData.elo_change}` : oppData.elo_change})` : '—'}
+                            {isFriendMatch ? 'Not Tracked' : oppData ? `${oppData.elo_before} → ${oppData.elo_after} (${oppData.elo_change >= 0 ? `+${oppData.elo_change}` : oppData.elo_change})` : '—'}
                           </div>
                         </div>
                       </div>

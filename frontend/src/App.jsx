@@ -195,6 +195,7 @@ export default function App() {
             user={auth.user}
             opponentName={game.opponentName}
             currentMode={game.currentMode}
+            isFriendMatch={game.isFriendMatch}
             resetToLobby={game.resetToLobby}
           />
         )}

@@ -45,6 +45,7 @@ export function useArenaGame({
   const [opponentName, setOpponentName] = useState('Opponent');
   const [opponentElo, setOpponentElo] = useState(1000);
   const [isBotMatch, setIsBotMatch] = useState(false);
+  const [isFriendMatch, setIsFriendMatch] = useState(false);
   const [countdownNum, setCountdownNum] = useState(3);
 
   const [myScore, setMyScore] = useState(0);
@@ -200,6 +201,7 @@ export function useArenaGame({
         setOpponentName(data.opponent_name || 'Opponent');
         setOpponentElo(data.opponent_elo || 1000);
         setIsBotMatch(!!data.is_bot_match);
+        setIsFriendMatch(!!data.is_friend_match);
         if (data.mode) {
           setCurrentMode(data.mode);
           activeModeRef.current = data.mode;
@@ -321,6 +323,7 @@ export function useArenaGame({
     setCurrentMode(mode);
     activeModeRef.current = mode;
     setIsLoading(true);
+    setIsFriendMatch(false);
     setLoadingMsg('CONNECTING TO COMBAT PROTOCOLS...');
     connectWS(mode, false, (ws) => {
       ws.send(JSON.stringify({ type: 'join_queue' }));
@@ -395,7 +398,9 @@ export function useArenaGame({
   const handleResign = () => {
     const msg = isPracticeMode
       ? 'Abort this practice session?'
-      : 'Forfeit this battle cycle? This records a loss and deducts ELO.';
+      : isFriendMatch
+      ? 'Forfeit this match? This records a loss'
+      : 'Forfeit this match? This records a loss and deducts ELO';
 
     if (showConfirm) {
       showConfirm(
@@ -431,6 +436,7 @@ export function useArenaGame({
     setCurrentMode(mode);
     activeModeRef.current = mode;
     setIsPracticeMode(true);
+    setIsFriendMatch(false);
     setIsDailyChallengeMode(false);
     setIsSpamLocked(false);
     setMyScore(0);
@@ -490,6 +496,7 @@ export function useArenaGame({
     try {
       const puzzle = await dailyService.getDailyPuzzle();
       setIsPracticeMode(false);
+      setIsFriendMatch(false);
       setIsDailyChallengeMode(true);
       setIsSpamLocked(false);
       setCurrentMode(3);
@@ -857,6 +864,7 @@ export function useArenaGame({
     setGameScreen('lobby');
     setIsPracticeMode(false);
     setIsDailyChallengeMode(false);
+    setIsFriendMatch(false);
     setIsSpamLocked(false);
     setJoinCodeInput('');
     loadGlobalLeaderboard();
@@ -869,6 +877,7 @@ export function useArenaGame({
     setGameScreen,
     isPracticeMode,
     isDailyChallengeMode,
+    isFriendMatch,
     isSpamLocked,
     isActionThrottled,
     opponentName,
