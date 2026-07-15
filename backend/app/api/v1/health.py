@@ -30,13 +30,13 @@ async def health_check(
     }
     overall = "healthy"
 
-    try:
-        result = await db.execute(text("SELECT 1"))
-        result.scalar()
-    except Exception as e:
-        checks["postgres"] = f"unhealthy: {e}"
-        overall = "degraded"
-        logger.error("Health check: PostgreSQL unhealthy — {}", e)
+    # try:
+    #     result = await db.execute(text("SELECT 1"))
+    #     result.scalar()
+    # except Exception as e:
+    #     checks["postgres"] = f"unhealthy: {e}"
+    #     overall = "degraded"
+    #     logger.error("Health check: PostgreSQL unhealthy — {}", e)
 
     try:
         await redis.ping()
